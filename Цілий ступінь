@@ -1,0 +1,64 @@
+#include <iostream>
+#include <Windows.h>
+using namespace std;
+int GetMaxDegree(int BR, int POW, int BB, int MAX) {
+	if (BB <= MAX) {
+		GetMaxDegree(BR, POW + 1, BB * BR, MAX);
+	}
+	else {
+		return POW - 1;
+	}
+}
+
+int main()
+{
+	SetConsoleOutputCP(1251);
+	cout << "Визначте, до якого найбільшого цілого позитивного ступеня можна піднести число b, щоб ре-зультат не перевищував заданої величини а   ( де ще маємо b < а ) БЕЗ використання функції pow() ." << endl;;
+	int b;
+	cout << "b = ";
+	cin >> b;
+	int a;
+	cout << "a = ";
+	cin >> a;
+
+	if (b == -1 or b == 0 or b == 1) {
+		cout << "Найбільший цілий позитивний ступень визначити неможливо";
+	}
+	else {
+		if (b < 0) {
+			cout << "Від'ємне";
+		}
+		else {
+			if (a < 0) {
+				cout << "Найбільший цілий позитивний ступень = 1";
+			}
+			else {
+
+				cout << "Найбільший цілий позитивний ступень = " << GetMaxDegree(b, 1, b, a);
+			}
+		}
+	}
+}
+
+
+	/*
+	Test 1
+	b = 1, a = 3
+	Найбільший цілий позитивний ступень визначити неможливо
+
+	Test 2
+	b = 2, a = 9
+
+	3
+	Test 3
+	b = -2, a = 9
+	3
+
+	Test 4
+	b = -2, a = -9
+	1
+
+	Test 5
+	b = 2, a = -3
+	1
+	*/
