@@ -1,0 +1,22 @@
+#include <iostream>
+using namespace std;
+int const n=7;
+int const k=3;
+void Function(int interval) {
+	if (k + (k - 1) * (interval+1) < n) //!
+		Function(interval + 1);
+	for (int i = 0; i <= (n - (k * (interval + 1) - interval) ); i++) {
+		for (int j = 0; j < n; j++) {
+				if (j>=i and ((j - i) % (interval + 1)==0) and ((j - i) / (interval + 1))<k) 
+					cout << "1";
+			else cout << "0";
+	  }
+		cout << endl;
+   }
+}
+int main()
+{
+	if (k > 0)
+		Function(0);
+	else cout << "No trees!!";
+}
