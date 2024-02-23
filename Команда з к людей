@@ -1,0 +1,33 @@
+#include <iostream>
+using namespace std;
+int const n = 5; 
+int const k = 3; 
+string A[n]{"Alex","John", "Gregory", "Irena", "Karena"}; 
+int B[k];  
+int pi = 0;
+void Function(int x,int y) { 
+
+	if (y == k)
+	{  
+		for (int j = 0; j < k; j++)  
+			cout << A[B[j]] << " ";   
+		cout << endl; 
+		pi++;
+		return;
+	}
+	for (int i = x; i < n; i++) 
+	{
+
+			B[y] = i;
+			Function(i + 1, y + 1); 
+	} 
+}
+int main()
+{
+	if (k <= n) 
+	{
+		Function(0, 0);
+		cout << pi;
+	}
+	else cout << "ERROR: NOT ENOUGH PEOPLE";
+		}
