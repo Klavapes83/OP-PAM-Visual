@@ -1,0 +1,130 @@
+#include <iostream>
+using namespace std;
+// 0 - пусто, 1 - преграда, 3 - старт, 4 - фініш, 8 - путь
+int const g = 7;
+int A[g][g]{  0,0,0,0,0,0,0,
+              0,1,0,1,1,0,0,
+              4,0,0,0,0,0,0,
+              1,0,0,0,0,0,0,  
+              0,0,0,0,1,0,0,
+              0,0,0,1,3,1,0,
+              0,0,0,0,0,0,0
+};
+
+struct Node {
+    int value;
+    Node* next;
+    Node(int val) : value(val), next(nullptr) {}
+};
+struct LinkedList {
+
+    Node* head;
+    LinkedList() : head(nullptr) {}
+   
+    void add(int value) {
+        Node* current = new Node(value);
+        current->next = head;
+        head = current;
+    }
+    void clear2() {
+        if (head and head->next) {
+            for (int i = 0; i < 2; i++) {
+                Node* temp = head;
+                head = head->next;
+                delete temp;
+            }
+        }
+    }
+    void clearout() {
+        while (head ) {
+            
+                Node* temp = head;
+                head = head->next;
+                delete temp;
+            
+        }
+    }
+     int length() {
+        int count = 0;
+        Node* current = head;
+        while (current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+    static  void findMinimum(LinkedList& list1, LinkedList& list2) {
+        int l1 = list1.length(); //min
+        int l2 = list2.length(); //current
+             
+        if (l1 > l2 || l1 == 0) {
+            list1.clearout();
+            Node* current = list2.head;
+            while (current != nullptr) {
+                list1.add(current->value);
+                current = current->next;
+            }
+         }
+     }    
+};
+LinkedList list1;
+LinkedList list2;
+int Proverochka(int x, int y) {
+    if (x >= 0 and x < g and y >= 0 and y < g and A[x][y] != 1) { 
+        Node* current = list2.head;
+         while (current != nullptr and current->next != nullptr) {
+             if (current->value == x and current->next->value == y)
+                 return 0;
+             current = current->next->next;
+         }
+        return 1;
+    }
+    else return 0; 
+}
+
+void Recurs(int x, int y) {
+    if (Proverochka(x, y) == 1) {
+        if (A[x][y] == 4) {
+            LinkedList::findMinimum(list1, list2);
+        }
+        else {
+            list2.add(y); //2
+            list2.add(x); //1     
+            Recurs(x + 1, y);
+            Recurs(x - 1, y);
+            Recurs(x, y + 1);
+            Recurs(x, y - 1);
+           list2.clear2();
+        }
+    }
+}
+int main()
+{
+    for (int i = 0; i < g; i++) {
+        for (int j = 0; j < g; j++) {
+            cout << A[i][j] << " ";
+            if (A[i][j] == 3) {
+                Recurs(i, j);
+            }
+        }
+        cout << endl;
+    }
+    cout << endl << endl;
+    if (list1.length() == 0)
+        cout << "No way(";
+    else {
+        for (int i = 0; i < g; i++) {
+            for (int j = 0; j < g; j++) {
+                Node* current = list1.head;
+
+                while (current != nullptr and current->next != nullptr) {
+                    if (current->value == j and current->next->value == i)
+                        A[i][j] = 8;
+                    current = current->next->next;
+                }
+                cout << A[i][j] << " ";
+            }
+            cout << endl;
+        } 
+    }
+}
