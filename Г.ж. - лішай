@@ -1,0 +1,100 @@
+<html>
+<head>
+<script>
+n = 30;
+p = 45;
+col_im = 3; 
+col_wir = 4;
+A=new Array();
+  for (i=0;i<n;i++)
+   A[i]=new Array;
+B=new Array();
+  for (i=0;i<n;i++)
+   B[i]=new Array;
+function start()
+{
+ // alert(Math.random());
+  for (i=0;i<n;i++)
+    for (j=0;j<n;j++)
+      A[i][j]=0;
+  A[n/2][n/2]=col_wir;
+//alert("hello"); 
+ refresh();
+}
+  function refresh()
+  {
+  //alert("hello");
+  res_str = "<table border=1>";
+  for (i=0;i<n;i++)
+  {
+    res_str+="<tr>";
+    for (j=0;j<n;j++)
+    {
+      if(A[i][j]==0)
+       res_str+="<td bgcolor=#ffffff>.<\/td>";
+      if(A[i][j]>0)
+       res_str+="<td bgcolor=#ff"+(9-2*A[i][j])+"0"+(9-2*A[i][j])+"0>.<\/td>";
+      if(A[i][j]<0)
+       res_str+="<td bgcolor=#"+(9-2*A[i][j])+"0"+(9-2*A[i][j])+"0ff>.<\/td>";
+    }
+    res_str+="<\/tr>";
+
+    }
+  res_str+="<\/table>";
+  res_str+="<input type=\"button\" value=\"next\" onClick=\"next();\">";
+  m_div.innerHTML=res_str;
+}
+  function next()
+  {
+   for (i=0;i<n;i++)
+    for (j=0;j<n;j++)
+     B[i][j]=A[i][j];
+   for (i=0;i<n;i++)
+    for (j=0;j<n;j++)
+    {
+     if(A[i][j]<0)
+      B[i][j]= A[i][j]+1;
+ 
+     if(A[i][j]>0)
+     { 
+      if(i>0)
+      if(A[i-1][j]==0 && parseInt(Math.random()*100)<p)
+       B[i-1][j]=col_wir;
+      if(i>0 && j<(n-1))
+      if(A[i-1][j+1]==0 && parseInt(Math.random()*100)<p)
+       B[i-1][j+1]=col_wir;
+      if(j<(n-1))
+      if(A[i][j+1]==0 && parseInt(Math.random()*100)<p)
+       B[i][j+1]=col_wir;
+      if(i<(n-1) && j<(n-1))
+      if(A[i+1][j+1]==0 && parseInt(Math.random()*100)<p)
+       B[i+1][j+1]=col_wir;
+      if(i<(n-1))
+      if(A[i+1][j]==0 && parseInt(Math.random()*100)<p)
+       B[i+1][j]=col_wir;
+      if(j>0 && i<(n-1))
+      if(A[i+1][j-1]==0 && parseInt(Math.random()*100)<p)
+       B[i+1][j-1]=col_wir;
+       if(j>0)
+      if(A[i][j-1]==0 && parseInt(Math.random()*100)<p)
+       B[i][j-1]=col_wir;
+      if(i>0 && j>0)
+      if(A[i-1][j-1]==0 && parseInt(Math.random()*100)<p)
+       B[i-1][j-1]=col_wir;
+     B[i][j]=A[i][j]-1;
+      if(B[i][j]==0)
+       B[i][j] =-col_im;
+     }
+   }
+   for (i=0;i<n;i++)
+    for (j=0;j<n;j++)
+     A[i][j]=B[i][j];
+   refresh();
+  }
+</script>
+</head>
+<body onload="start();">
+<div id = "m_div">
+
+</body>
+</html>
